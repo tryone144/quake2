@@ -776,7 +776,7 @@ void jpg_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
 		ri.Con_Printf(PRINT_ALL, "Premature end of JPEG data\n");
 }
 
-void jpeg_mem_src(j_decompress_ptr cinfo, byte *mem, int len)
+void _jpeg_mem_src(j_decompress_ptr cinfo, byte *mem, int len)
 {
     cinfo->src = (struct jpeg_source_mgr *)(*cinfo->mem->alloc_small)((j_common_ptr) cinfo, JPOOL_PERMANENT, sizeof(struct jpeg_source_mgr));
     cinfo->src->init_source = jpg_null;
@@ -822,7 +822,7 @@ void LoadJPG (char *filename, byte **pic, int *width, int *height)
 	jpeg_create_decompress(&cinfo);
 	
 	// Feed JPEG memory into the libJpeg Object
-	jpeg_mem_src(&cinfo, rawdata, rawsize);
+	_jpeg_mem_src(&cinfo, rawdata, rawsize);
 
 	// Process JPEG header
 	jpeg_read_header(&cinfo, true);
